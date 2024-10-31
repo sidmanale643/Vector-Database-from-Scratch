@@ -9,13 +9,20 @@ class VectorDB(nn.Module):
         super().__init__()
         self.embedding_model = SentenceTransformer(embed_model)
 
-    def load_data(self, file_path): 
-        with open(file_path, 'r') as f:
-            data = f.read()
-        return data
-    
+    def load_data(self, file_paths): 
+        
+        file_paths = list(file_paths)
+        
+        data =  ''
+        
+        for file_path in file_paths:
+            with open(file_path, 'r') as f:
+                data += f.read()
+
     def chunk_data(self, data, chunk_size):
+        
         assert isinstance(data, str)
+        
         chunks = []
         for i in range(0, len(data), chunk_size):
             chunk = data[i:i + chunk_size]
@@ -23,6 +30,7 @@ class VectorDB(nn.Module):
         return chunks
     
     def index(self, chunks):
+        
         chunk_embeddings = [self.embedding_model.encode(chunk) for chunk in chunks]
         return chunk_embeddings
     
