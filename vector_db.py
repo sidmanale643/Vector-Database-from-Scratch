@@ -18,6 +18,8 @@ class VectorDB(nn.Module):
         for file_path in file_paths:
             with open(file_path, 'r') as f:
                 data += f.read()
+        
+        return data
 
     def chunk_data(self, data, chunk_size):
         
